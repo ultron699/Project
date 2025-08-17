@@ -1,0 +1,719 @@
+body {
+  margin: 0;
+  padding: 0;
+  background: transparent; /* Transparent for widget */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow: hidden;
+  -webkit-app-region: drag; /* Make entire body draggable */
+}
+
+/* Add a secondary sliding animation for extra smoothness */
+#widget {
+  /* Remove fixed positioning for Electron */
+  /* position: fixed; */
+  /* bottom: 20px; */
+  /* right: 20px; */
+  width: 280px;
+  padding: 20px;
+  background: #ff0080; /* Fallback color */
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  color: white;
+  cursor: move;
+  user-select: none;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.1);
+  z-index: 1000;
+  -webkit-app-region: drag; /* Make widget draggable */
+  animation: continuousRainbow 6s linear infinite, slideGradient 3s ease-in-out infinite;
+}
+
+/* Additional sliding animation for smoother transitions */
+@keyframes slideGradient {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Continuous rainbow color cycling with smooth sliding transitions */
+@keyframes continuousRainbow {
+  0% {
+    background: linear-gradient(135deg, #ff0080, #ff4080, #ff8000);
+    background-size: 300% 300%;
+    background-position: 0% 50%;
+    box-shadow: 0 8px 32px rgba(255, 0, 128, 0.3);
+  }
+  12.5% {
+    background: linear-gradient(135deg, #ff8000, #ffb040, #ffff00);
+    background-size: 300% 300%;
+    background-position: 25% 50%;
+    box-shadow: 0 8px 32px rgba(255, 128, 0, 0.3);
+  }
+  25% {
+    background: linear-gradient(135deg, #ffff00, #ffff80, #80ff00);
+    background-size: 300% 300%;
+    background-position: 50% 50%;
+    box-shadow: 0 8px 32px rgba(255, 255, 0, 0.3);
+  }
+  37.5% {
+    background: linear-gradient(135deg, #80ff00, #b0ff40, #00ff80);
+    background-size: 300% 300%;
+    background-position: 75% 50%;
+    box-shadow: 0 8px 32px rgba(128, 255, 0, 0.3);
+  }
+  50% {
+    background: linear-gradient(135deg, #00ff80, #40ffb0, #00ffff);
+    background-size: 300% 300%;
+    background-position: 100% 50%;
+    box-shadow: 0 8px 32px rgba(0, 255, 128, 0.3);
+  }
+  62.5% {
+    background: linear-gradient(135deg, #00ffff, #40ffff, #0080ff);
+    background-size: 300% 300%;
+    background-position: 75% 50%;
+    box-shadow: 0 8px 32px rgba(0, 255, 255, 0.3);
+  }
+  75% {
+    background: linear-gradient(135deg, #0080ff, #4080ff, #8000ff);
+    background-size: 300% 300%;
+    background-position: 50% 50%;
+    box-shadow: 0 8px 32px rgba(0, 128, 255, 0.3);
+  }
+  87.5% {
+    background: linear-gradient(135deg, #8000ff, #b040ff, #ff0080);
+    background-size: 300% 300%;
+    background-position: 25% 50%;
+    box-shadow: 0 8px 32px rgba(128, 0, 255, 0.3);
+  }
+  100% {
+    background: linear-gradient(135deg, #ff0080, #ff4080, #ff8000);
+    background-size: 300% 300%;
+    background-position: 0% 50%;
+    box-shadow: 0 8px 32px rgba(255, 0, 128, 0.3);
+  }
+}
+
+/* Enhanced hover effect with faster rainbow */
+#widget:hover {
+  transform: translateY(-5px);
+  animation: continuousRainbow 2s linear infinite, glowPulse 1s ease-in-out infinite alternate;
+}
+
+/* Enhanced glow pulse animation */
+@keyframes glowPulse {
+  0% {
+    box-shadow: 0 12px 40px rgba(255, 255, 255, 0.2);
+  }
+  100% {
+    box-shadow: 0 12px 40px rgba(255, 255, 255, 0.6);
+  }
+}
+
+#widget.dragging {
+  transform: rotate(5deg) scale(1.05);
+  animation: continuousRainbow 1s linear infinite; /* Faster animation when dragging */
+}
+
+/* Dynamic background colors based on playback state with rainbow effect */
+#widget.playing {
+  animation: continuousRainbow 4s linear infinite, playingPulse 2s ease-in-out infinite alternate;
+}
+
+@keyframes playingPulse {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.02);
+  }
+}
+
+#widget.paused {
+  animation: pausedRainbow 8s linear infinite; /* Slower, darker colors when paused */
+}
+
+@keyframes pausedRainbow {
+  0% {
+    background: linear-gradient(135deg, #000080, #400080, #800080);
+    background-size: 400% 400%;
+    background-position: 0% 50%;
+  }
+  12.5% {
+    background: linear-gradient(135deg, #800080, #a040a0, #008080);
+    background-size: 400% 400%;
+    background-position: 25% 50%;
+  }
+  25% {
+    background: linear-gradient(135deg, #008080, #40a0a0, #808000);
+    background-size: 400% 400%;
+    background-position: 50% 50%;
+  }
+  37.5% {
+    background: linear-gradient(135deg, #808000, #a0a040, #800000);
+    background-size: 400% 400%;
+    background-position: 75% 50%;
+  }
+  50% {
+    background: linear-gradient(135deg, #800000, #a04040, #008080);
+    background-size: 400% 400%;
+    background-position: 100% 50%;
+  }
+  62.5% {
+    background: linear-gradient(135deg, #008080, #40a0a0, #800080);
+    background-size: 400% 400%;
+    background-position: 75% 50%;
+  }
+  75% {
+    background: linear-gradient(135deg, #800080, #a040a0, #000080);
+    background-size: 400% 400%;
+    background-position: 50% 50%;
+  }
+  87.5% {
+    background: linear-gradient(135deg, #000080, #400080, #800080);
+    background-size: 400% 400%;
+    background-position: 25% 50%;
+  }
+  100% {
+    background: linear-gradient(135deg, #000080, #400080, #800080);
+    background-size: 400% 400%;
+    background-position: 0% 50%;
+  }
+}
+
+#widget.no-song {
+  animation: noSongRainbow 10s linear infinite; /* Very slow, muted colors when no song */
+}
+
+@keyframes noSongRainbow {
+  0% { background: linear-gradient(135deg, #404040, #606060); }
+  25% { background: linear-gradient(135deg, #606060, #808080); }
+  50% { background: linear-gradient(135deg, #808080, #a0a0a0); }
+  75% { background: linear-gradient(135deg, #606060, #808080); }
+  100% { background: linear-gradient(135deg, #404040, #606060); }
+}
+
+.eyes {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 15px;
+}
+
+.eye {
+  width: 35px;
+  height: 35px;
+  background: white;
+  border-radius: 50%;
+  position: relative;
+  transition: all 0.2s ease;
+  -webkit-app-region: no-drag; /* Eyes shouldn't drag */
+}
+
+.eye::after {
+  content: '';
+  width: 14px;
+  height: 14px;
+  background: #333;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.1s ease;
+}
+
+/* Blinking animation */
+@keyframes blink {
+  0%, 90%, 100% {
+    transform: scaleY(1);
+  }
+  95% {
+    transform: scaleY(0.1);
+  }
+}
+
+.eye.blinking {
+  animation: blink 3s infinite;
+}
+
+/* Winking animation - alternates between left and right eye */
+@keyframes winkLeft {
+  0%, 85%, 100% {
+    transform: scaleY(1);
+  }
+  90%, 95% {
+    transform: scaleY(0.1);
+  }
+}
+
+@keyframes winkRight {
+  0%, 85%, 100% {
+    transform: scaleY(1);
+  }
+  90%, 95% {
+    transform: scaleY(0.1);
+  }
+}
+
+/* Apply winking to individual eyes */
+.eye:first-child {
+  animation: blink 4s infinite, winkLeft 8s infinite;
+}
+
+.eye:last-child {
+  animation: blink 4s infinite 1s, winkRight 8s infinite 4s;
+}
+
+/* Eye movement based on music */
+.eye.dancing::after {
+  animation: eyeDance 1s ease-in-out infinite alternate;
+}
+
+@keyframes eyeDance {
+  0% {
+    transform: translate(-30%, -50%);
+  }
+  100% {
+    transform: translate(-70%, -50%);
+  }
+}
+
+.song-info {
+  text-align: center;
+  -webkit-app-region: no-drag; /* Song info shouldn't drag */
+}
+
+#song-name {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0 0 5px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+  animation: textColorCycle 6s linear infinite;
+}
+
+#artist-name {
+  font-size: 12px;
+  margin: 0;
+  opacity: 0.9;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+  animation: textColorCycle 6s linear infinite 3s; /* Offset by 3 seconds */
+}
+
+/* Dynamic text color that contrasts with background */
+@keyframes textColorCycle {
+  0% {
+    color: #000080; /* Dark blue contrasts with bright pink/red */
+  }
+  12.5% {
+    color: #ffffff; /* White contrasts with orange */
+  }
+  25% {
+    color: #8b0000; /* Dark red contrasts with bright yellow */
+  }
+  37.5% {
+    color: #ffffff; /* White contrasts with bright green */
+  }
+  50% {
+    color: #000080; /* Dark blue contrasts with bright cyan */
+  }
+  62.5% {
+    color: #8b0000; /* Dark red contrasts with bright cyan */
+  }
+  75% {
+    color: #ffffff; /* White contrasts with blue */
+  }
+  87.5% {
+    color: #000080; /* Dark blue contrasts with purple */
+  }
+  100% {
+    color: #000080; /* Back to start */
+  }
+}
+
+/* Scrolling text for long titles */
+.scroll-text {
+  animation: scroll 10s linear infinite;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* Login prompt styling with dynamic color */
+.login-prompt {
+  text-align: center;
+  font-size: 14px;
+  -webkit-app-region: no-drag;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+  animation: textColorCycle 6s linear infinite 1.5s; /* Slight offset */
+}
+
+.login-link {
+  text-decoration: underline;
+  cursor: pointer;
+  -webkit-app-region: no-drag;
+  animation: linkColorCycle 6s linear infinite;
+}
+
+.login-link:hover {
+  text-shadow: 0 0 10px rgba(255, 235, 59, 0.8);
+}
+
+/* Special color cycle for links with hover-friendly colors */
+@keyframes linkColorCycle {
+  0% { color: #ffffff; }
+  12.5% { color: #000080; }
+  25% { color: #ffffff; }
+  37.5% { color: #000080; }
+  50% { color: #ffffff; }
+  62.5% { color: #ffffff; }
+  75% { color: #000080; }
+  87.5% { color: #ffffff; }
+  100% { color: #ffffff; }
+}
+
+/* Progress bar for song */
+.progress-container {
+  width: 100%;
+  height: 3px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 2px;
+  margin-top: 10px;
+  overflow: hidden;
+  -webkit-app-region: no-drag;
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #fff, #ffeb3b, #fff);
+  background-size: 200% 100%;
+  animation: progressGlow 2s ease-in-out infinite;
+  border-radius: 2px;
+  transition: width 0.5s ease;
+  width: 0%;
+}
+
+@keyframes progressGlow {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Notification animation */
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Auto-skip indicator with continuous rainbow border */
+#widget.auto-skip-enabled {
+  border: 2px solid #ff0080;
+  animation: continuousRainbow 6s linear infinite, rainbowBorder 3s linear infinite;
+}
+
+@keyframes rainbowBorder {
+  0% { border-color: #ff0080; }
+  12.5% { border-color: #ff8000; }
+  25% { border-color: #ffff00; }
+  37.5% { border-color: #80ff00; }
+  50% { border-color: #00ff80; }
+  62.5% { border-color: #00ffff; }
+  75% { border-color: #0080ff; }
+  87.5% { border-color: #8000ff; }
+  100% { border-color: #ff0080; }
+}
+
+/* Song change flash effect with rainbow */
+@keyframes songChange {
+  0% {
+    background: linear-gradient(135deg, #ff6b6b, #feca57);
+    transform: scale(1.1);
+  }
+  50% {
+    background: linear-gradient(135deg, #48cae4, #023e8a);
+    transform: scale(1.05);
+  }
+  100% {
+    background: linear-gradient(135deg, #ff0080, #ff4080);
+    transform: scale(1);
+  }
+}
+
+/* Add close button for widget */
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  -webkit-app-region: no-drag;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+#widget:hover .close-btn {
+  opacity: 1;
+}
+
+.close-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
+}
+
+/* Make all interactive elements non-draggable */
+button, input, select, textarea, a, .clickable {
+  -webkit-app-region: no-drag;
+}
+
+/* Dynamic text colors for different states */
+#widget.playing #song-name,
+#widget.playing #artist-name {
+  animation: textColorCycle 4s linear infinite; /* Faster for playing state */
+}
+
+#widget.playing .login-prompt {
+  animation: textColorCycle 4s linear infinite 1s;
+}
+
+#widget.paused #song-name,
+#widget.paused #artist-name {
+  animation: pausedTextCycle 8s linear infinite; /* Slower for paused state */
+}
+
+#widget.paused .login-prompt {
+  animation: pausedTextCycle 8s linear infinite 2s;
+}
+
+#widget.no-song .login-prompt {
+  animation: mutedTextCycle 10s linear infinite;
+}
+
+/* Text color cycles for different states */
+@keyframes pausedTextCycle {
+  0% { color: #b0b0b0; }
+  25% { color: #ffffff; }
+  50% { color: #d0d0d0; }
+  75% { color: #ffffff; }
+  100% { color: #b0b0b0; }
+}
+
+@keyframes mutedTextCycle {
+  0% { color: #ffffff; }
+  50% { color: #cccccc; }
+  100% { color: #ffffff; }
+}
+
+/* Party and energetic text colors */
+#widget.party #song-name,
+#widget.party #artist-name {
+  animation: partyTextCycle 0.8s linear infinite;
+  font-weight: bold;
+}
+
+#widget.energetic #song-name,
+#widget.energetic #artist-name {
+  animation: energeticTextCycle 1.5s linear infinite;
+}
+
+@keyframes partyTextCycle {
+  0% { color: #000000; }
+  12.5% { color: #ffffff; }
+  25% { color: #000080; }
+  37.5% { color: #ffffff; }
+  50% { color: #8b0000; }
+  62.5% { color: #ffffff; }
+  75% { color: #000080; }
+  87.5% { color: #000000; }
+  100% { color: #000000; }
+}
+
+@keyframes energeticTextCycle {
+  0% { color: #ffffff; }
+  20% { color: #000080; }
+  40% { color: #8b0000; }
+  60% { color: #ffffff; }
+  80% { color: #000080; }
+  100% { color: #ffffff; }
+}
+#widget.energetic {
+  animation: energeticRainbow 1.5s linear infinite;
+}
+
+@keyframes energeticRainbow {
+  0% {
+    background: linear-gradient(135deg, #ff1744, #ff4569, #ff9800);
+    background-size: 500% 500%;
+    background-position: 0% 50%;
+  }
+  10% {
+    background: linear-gradient(135deg, #ff9800, #ffb74d, #ffeb3b);
+    background-size: 500% 500%;
+    background-position: 20% 50%;
+  }
+  20% {
+    background: linear-gradient(135deg, #ffeb3b, #fff176, #4caf50);
+    background-size: 500% 500%;
+    background-position: 40% 50%;
+  }
+  30% {
+    background: linear-gradient(135deg, #4caf50, #81c784, #2196f3);
+    background-size: 500% 500%;
+    background-position: 60% 50%;
+  }
+  40% {
+    background: linear-gradient(135deg, #2196f3, #64b5f6, #9c27b0);
+    background-size: 500% 500%;
+    background-position: 80% 50%;
+  }
+  50% {
+    background: linear-gradient(135deg, #9c27b0, #ba68c8, #e91e63);
+    background-size: 500% 500%;
+    background-position: 100% 50%;
+  }
+  60% {
+    background: linear-gradient(135deg, #e91e63, #f06292, #ff5722);
+    background-size: 500% 500%;
+    background-position: 80% 50%;
+  }
+  70% {
+    background: linear-gradient(135deg, #ff5722, #ff8a65, #795548);
+    background-size: 500% 500%;
+    background-position: 60% 50%;
+  }
+  80% {
+    background: linear-gradient(135deg, #795548, #a1887f, #607d8b);
+    background-size: 500% 500%;
+    background-position: 40% 50%;
+  }
+  90% {
+    background: linear-gradient(135deg, #607d8b, #90a4ae, #ff1744);
+    background-size: 500% 500%;
+    background-position: 20% 50%;
+  }
+  100% {
+    background: linear-gradient(135deg, #ff1744, #ff4569, #ff9800);
+    background-size: 500% 500%;
+    background-position: 0% 50%;
+  }
+}
+
+#widget.calm {
+  animation: calmRainbow 8s linear infinite;
+}
+
+@keyframes calmRainbow {
+  0% { background: linear-gradient(135deg, #e1f5fe, #b3e5fc); }
+  16.66% { background: linear-gradient(135deg, #81d4fa, #4fc3f7); }
+  33.33% { background: linear-gradient(135deg, #29b6f6, #03a9f4); }
+  50% { background: linear-gradient(135deg, #039be5, #0288d1); }
+  66.66% { background: linear-gradient(135deg, #0277bd, #01579b); }
+  83.33% { background: linear-gradient(135deg, #81d4fa, #4fc3f7); }
+  100% { background: linear-gradient(135deg, #e1f5fe, #b3e5fc); }
+}
+
+#widget.party {
+  animation: partyRainbow 0.8s linear infinite;
+}
+
+@keyframes partyRainbow {
+  0% {
+    background: linear-gradient(135deg, #ff0080, #ff4081, #ff8a65);
+    background-size: 600% 600%;
+    background-position: 0% 50%;
+  }
+  8% {
+    background: linear-gradient(135deg, #ff4081, #ff8a65, #ffb74d);
+    background-size: 600% 600%;
+    background-position: 12.5% 50%;
+  }
+  16% {
+    background: linear-gradient(135deg, #ff8a65, #ffb74d, #aed581);
+    background-size: 600% 600%;
+    background-position: 25% 50%;
+  }
+  24% {
+    background: linear-gradient(135deg, #ffb74d, #aed581, #4db6ac);
+    background-size: 600% 600%;
+    background-position: 37.5% 50%;
+  }
+  32% {
+    background: linear-gradient(135deg, #aed581, #4db6ac, #4fc3f7);
+    background-size: 600% 600%;
+    background-position: 50% 50%;
+  }
+  40% {
+    background: linear-gradient(135deg, #4db6ac, #4fc3f7, #7986cb);
+    background-size: 600% 600%;
+    background-position: 62.5% 50%;
+  }
+  48% {
+    background: linear-gradient(135deg, #4fc3f7, #7986cb, #ba68c8);
+    background-size: 600% 600%;
+    background-position: 75% 50%;
+  }
+  56% {
+    background: linear-gradient(135deg, #7986cb, #ba68c8, #f48fb1);
+    background-size: 600% 600%;
+    background-position: 87.5% 50%;
+  }
+  64% {
+    background: linear-gradient(135deg, #ba68c8, #f48fb1, #ff8a80);
+    background-size: 600% 600%;
+    background-position: 100% 50%;
+  }
+  72% {
+    background: linear-gradient(135deg, #f48fb1, #ff8a80, #ffab91);
+    background-size: 600% 600%;
+    background-position: 87.5% 50%;
+  }
+  80% {
+    background: linear-gradient(135deg, #ff8a80, #ffab91, #c5e1a5);
+    background-size: 600% 600%;
+    background-position: 75% 50%;
+  }
+  88% {
+    background: linear-gradient(135deg, #ffab91, #c5e1a5, #80deea);
+    background-size: 600% 600%;
+    background-position: 62.5% 50%;
+  }
+  96% {
+    background: linear-gradient(135deg, #c5e1a5, #80deea, #ff0080);
+    background-size: 600% 600%;
+    background-position: 50% 50%;
+  }
+  100% {
+    background: linear-gradient(135deg, #ff0080, #ff4081, #ff8a65);
+    background-size: 600% 600%;
+    background-position: 0% 50%;
+  }
+}
